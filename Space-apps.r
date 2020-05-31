@@ -1,11 +1,4 @@
-#Load required libraries
-#library('tidyr')
-#library('dplyr')
-#library('ggplot2')
-#library('ggmap')
-#library('viridis')
-#library('readr')
-#library('weathermetrics')
+
 library(ncdf4)
 library(dplyr)
 library(chron)
@@ -77,7 +70,7 @@ aer_2015_title<-"Angstrom Exponent in April of 2015"
 aer_2015_unit<-"Angstrom Exponent"
 aer_2015_gradient<-'magma'
 aer_2015_limits<-c(0,2)
-
+nc_close(aerosol_2015)
 #2019
 aer_2019_angstrom_exponent<-ncvar_get(aerosol_2019,"Angstrom_Exponent_Land_Ocean_Maximum")
 aer_2019_latitude<-ncvar_get(aerosol_2019,"Latitude_1D")
@@ -86,7 +79,7 @@ aer_2019_title<-"Angstrom Exponent in April of 2019"
 aer_2019_unit<-"Angstrom Exponent"
 aer_2019_gradient<-'magma'
 aer_2019_limits<-c(0,2)
-
+nc_close(aerosol_2019)
 #2020
 aer_2020_angstrom_exponent<-ncvar_get(aerosol_2020,"Angstrom_Exponent_Land_Ocean_Maximum")
 aer_2020_latitude<-ncvar_get(aerosol_2020,"Latitude_1D")
@@ -95,92 +88,133 @@ aer_2020_title<-"Angstrom Exponent in April of 2020"
 aer_2020_unit<-"Angstrom Exponent"
 aer_2020_gradient<-'magma'
 aer_2020_limits<-c(0,2)
+nc_close(aerosol_2020)
 
-#plotMap(aer_2015_latitude,aer_2015_longitude,aer_2015_angstrom_exponent,aer_2015_title,aer_2015_unit,gradient=aer_2015_gradient,limits=aer_2015_limits)
-
-#plotMap(aer_2019_latitude,aer_2019_longitude,aer_2019_angstrom_exponent,aer_2019_title,aer_2019_unit,gradient=aer_2019_gradient,limits=aer_2019_limits)
-
-#plotMap(aer_2020_latitude,aer_2020_longitude,aer_2020_angstrom_exponent,aer_2020_title,aer_2020_unit,gradient=aer_2020_gradient,limits=aer_2020_limits)
+plotMap(aer_2015_latitude,aer_2015_longitude,aer_2015_angstrom_exponent,aer_2015_title,aer_2015_unit,gradient=aer_2015_gradient,limits=aer_2015_limits)
+plotMap(aer_2019_latitude,aer_2019_longitude,aer_2019_angstrom_exponent,aer_2019_title,aer_2019_unit,gradient=aer_2019_gradient,limits=aer_2019_limits)
+plotMap(aer_2020_latitude,aer_2020_longitude,aer_2020_angstrom_exponent,aer_2020_title,aer_2020_unit,gradient=aer_2020_gradient,limits=aer_2020_limits)
 
 #Ice-area processing
 
-# ggplot(data=april_ice_extent)+
-#   geom_point(aes(x=year,y=extent,color=year))+
-#   ggtitle('Ice extent (mil. sq. km) in April of every year')+
-#   xlab('Year')+
-#   ylab('Ice Extent in mil. sq. km')+
-#   scale_color_gradient(low='#A9C8F3',high='#0C2389')
-# 
-# ice_extent_2015<-c(january_ice_extent$extent[january_ice_extent$year==2015],february_ice_extent$extent[february_ice_extent$year==2015],march_ice_extent$extent[march_ice_extent$year==2015],april_ice_extent$extent[april_ice_extent$year==2015])
-# ice_extent_2016<-c(january_ice_extent$extent[january_ice_extent$year==2016],february_ice_extent$extent[february_ice_extent$year==2016],march_ice_extent$extent[march_ice_extent$year==2016],april_ice_extent$extent[april_ice_extent$year==2016])
-# ice_extent_2017<-c(january_ice_extent$extent[january_ice_extent$year==2017],february_ice_extent$extent[february_ice_extent$year==2017],march_ice_extent$extent[march_ice_extent$year==2017],april_ice_extent$extent[april_ice_extent$year==2017])
-# ice_extent_2018<-c(january_ice_extent$extent[january_ice_extent$year==2018],february_ice_extent$extent[february_ice_extent$year==2018],march_ice_extent$extent[march_ice_extent$year==2018],april_ice_extent$extent[april_ice_extent$year==2018])
-# ice_extent_2019<-c(january_ice_extent$extent[january_ice_extent$year==2019],february_ice_extent$extent[february_ice_extent$year==2019],march_ice_extent$extent[march_ice_extent$year==2019],april_ice_extent$extent[april_ice_extent$year==2019])
-# ice_extent_2020<-c(january_ice_extent$extent[january_ice_extent$year==2020],february_ice_extent$extent[february_ice_extent$year==2020],march_ice_extent$extent[march_ice_extent$year==2020],april_ice_extent$extent[april_ice_extent$year==2020])
-# ice_extent_month<-c('January','February','March','April')
-# ice_extent_monthly_data_2015<-data.frame(Month=ice_extent_month,Extent=ice_extent_2015)
-# ice_extent_monthly_data_2016<-data.frame(Month=ice_extent_month,Extent=ice_extent_2016)
-# ice_extent_monthly_data_2017<-data.frame(Month=ice_extent_month,Extent=ice_extent_2017)
-# ice_extent_monthly_data_2018<-data.frame(Month=ice_extent_month,Extent=ice_extent_2018)
-# ice_extent_monthly_data_2019<-data.frame(Month=ice_extent_month,Extent=ice_extent_2019)
-# ice_extent_monthly_data_2020<-data.frame(Month=ice_extent_month,Extent=ice_extent_2020)
-# 
-#cols<-c('2020'='maroon','2019'='skyblue','2018'='lightgreen','2017'='peachpuff4','2016'='darkorchid3','2015'='midnightblue')
-# ggplot(data=ice_extent_monthly_data_2020)+
-#   geom_line(aes(x=factor(Month,level=ice_extent_month),y=Extent,group=1, colour="2020"),size=1.0)+
-#   geom_point(aes(x=factor(Month,level=ice_extent_month),y=Extent,colour='2020'))+
-#   geom_line(data=ice_extent_monthly_data_2019,aes(x=factor(Month,level=ice_extent_month),y=Extent,group=1, colour="2019"),size=1.0)+
-#   geom_point(data=ice_extent_monthly_data_2019,aes(x=factor(Month,level=ice_extent_month),y=Extent,colour='2019'))+
-#   geom_line(data=ice_extent_monthly_data_2018,aes(x=factor(Month,level=ice_extent_month),y=Extent,group=1, colour="2018"),size=1.0)+
-#   geom_point(data=ice_extent_monthly_data_2018,aes(x=factor(Month,level=ice_extent_month),y=Extent,colour='2018'))+
-#   geom_line(data=ice_extent_monthly_data_2017,aes(x=factor(Month,level=ice_extent_month),y=Extent,group=1, colour="2017"),size=1.0)+
-#   geom_point(data=ice_extent_monthly_data_2017,aes(x=factor(Month,level=ice_extent_month),y=Extent,colour='2017'))+
-#   geom_line(data=ice_extent_monthly_data_2016,aes(x=factor(Month,level=ice_extent_month),y=Extent,group=1, colour="2016"),size=1.0)+
-#   geom_point(data=ice_extent_monthly_data_2016,aes(x=factor(Month,level=ice_extent_month),y=Extent,colour='2016'))+
-#   geom_line(data=ice_extent_monthly_data_2015,aes(x=factor(Month,level=ice_extent_month),y=Extent,group=1, colour="2015"),size=1.0)+
-#   geom_point(data=ice_extent_monthly_data_2015,aes(x=factor(Month,level=ice_extent_month),y=Extent,colour='2015'))+
-#   ggtitle('Monthly Ice extent in million sq. km in 2015-2020')+
-#   scale_color_manual(name='Year',values=cols)+
-#   xlab('Month')+
-#   ylab('Ice Extent in mill. sq. km')
-#   
+ggplot(data=april_ice_extent)+
+  geom_point(aes(x=year,y=extent,color=year))+
+  ggtitle('Ice extent (mil. sq. km) in April of every year')+
+  xlab('Year')+
+  ylab('Ice Extent in mil. sq. km')+
+  scale_color_gradient(low='#A9C8F3',high='#0C2389')
+ 
+ ice_extent_2015<-c(january_ice_extent$extent[january_ice_extent$year==2015],february_ice_extent$extent[february_ice_extent$year==2015],march_ice_extent$extent[march_ice_extent$year==2015],april_ice_extent$extent[april_ice_extent$year==2015])
+ ice_extent_2016<-c(january_ice_extent$extent[january_ice_extent$year==2016],february_ice_extent$extent[february_ice_extent$year==2016],march_ice_extent$extent[march_ice_extent$year==2016],april_ice_extent$extent[april_ice_extent$year==2016])
+ ice_extent_2017<-c(january_ice_extent$extent[january_ice_extent$year==2017],february_ice_extent$extent[february_ice_extent$year==2017],march_ice_extent$extent[march_ice_extent$year==2017],april_ice_extent$extent[april_ice_extent$year==2017])
+ ice_extent_2018<-c(january_ice_extent$extent[january_ice_extent$year==2018],february_ice_extent$extent[february_ice_extent$year==2018],march_ice_extent$extent[march_ice_extent$year==2018],april_ice_extent$extent[april_ice_extent$year==2018])
+ ice_extent_2019<-c(january_ice_extent$extent[january_ice_extent$year==2019],february_ice_extent$extent[february_ice_extent$year==2019],march_ice_extent$extent[march_ice_extent$year==2019],april_ice_extent$extent[april_ice_extent$year==2019])
+ ice_extent_2020<-c(january_ice_extent$extent[january_ice_extent$year==2020],february_ice_extent$extent[february_ice_extent$year==2020],march_ice_extent$extent[march_ice_extent$year==2020],april_ice_extent$extent[april_ice_extent$year==2020])
+ ice_extent_month<-c('January','February','March','April')
+ ice_extent_monthly_data_2015<-data.frame(Month=ice_extent_month,Extent=ice_extent_2015)
+ ice_extent_monthly_data_2016<-data.frame(Month=ice_extent_month,Extent=ice_extent_2016)
+ ice_extent_monthly_data_2017<-data.frame(Month=ice_extent_month,Extent=ice_extent_2017)
+ ice_extent_monthly_data_2018<-data.frame(Month=ice_extent_month,Extent=ice_extent_2018)
+ ice_extent_monthly_data_2019<-data.frame(Month=ice_extent_month,Extent=ice_extent_2019)
+ ice_extent_monthly_data_2020<-data.frame(Month=ice_extent_month,Extent=ice_extent_2020)
+ 
+cols<-c('2020'='maroon','2019'='skyblue','2018'='lightgreen','2017'='peachpuff4','2016'='darkorchid3','2015'='midnightblue')
+ ggplot(data=ice_extent_monthly_data_2020)+
+   geom_line(aes(x=factor(Month,level=ice_extent_month),y=Extent,group=1, colour="2020"),size=1.0)+
+   geom_point(aes(x=factor(Month,level=ice_extent_month),y=Extent,colour='2020'))+
+   geom_line(data=ice_extent_monthly_data_2019,aes(x=factor(Month,level=ice_extent_month),y=Extent,group=1, colour="2019"),size=1.0)+
+   geom_point(data=ice_extent_monthly_data_2019,aes(x=factor(Month,level=ice_extent_month),y=Extent,colour='2019'))+
+   geom_line(data=ice_extent_monthly_data_2018,aes(x=factor(Month,level=ice_extent_month),y=Extent,group=1, colour="2018"),size=1.0)+
+   geom_point(data=ice_extent_monthly_data_2018,aes(x=factor(Month,level=ice_extent_month),y=Extent,colour='2018'))+
+   geom_line(data=ice_extent_monthly_data_2017,aes(x=factor(Month,level=ice_extent_month),y=Extent,group=1, colour="2017"),size=1.0)+
+   geom_point(data=ice_extent_monthly_data_2017,aes(x=factor(Month,level=ice_extent_month),y=Extent,colour='2017'))+
+   geom_line(data=ice_extent_monthly_data_2016,aes(x=factor(Month,level=ice_extent_month),y=Extent,group=1, colour="2016"),size=1.0)+
+   geom_point(data=ice_extent_monthly_data_2016,aes(x=factor(Month,level=ice_extent_month),y=Extent,colour='2016'))+
+   geom_line(data=ice_extent_monthly_data_2015,aes(x=factor(Month,level=ice_extent_month),y=Extent,group=1, colour="2015"),size=1.0)+
+   geom_point(data=ice_extent_monthly_data_2015,aes(x=factor(Month,level=ice_extent_month),y=Extent,colour='2015'))+
+   ggtitle('Monthly Ice extent in million sq. km in 2015-2020')+
+   scale_color_manual(name='Year',values=cols)+
+   xlab('Month')+
+   ylab('Ice Extent in mill. sq. km')
+   
 
 #Greenland Sea
-# greenland_sea_no_days_2015<-1:sum(all_region_ice_extent$yyyyddd>=2015001 & all_region_ice_extent$yyyyddd<=2015149)
-# greenland_sea_no_days_2016<-1:sum(all_region_ice_extent$yyyyddd>=2016001 & all_region_ice_extent$yyyyddd<=2016149)
-# greenland_sea_no_days_2017<-1:sum(all_region_ice_extent$yyyyddd>=2017001 & all_region_ice_extent$yyyyddd<=2017149)
-# greenland_sea_no_days_2018<-1:sum(all_region_ice_extent$yyyyddd>=2018001 & all_region_ice_extent$yyyyddd<=2018149)
-# greenland_sea_no_days_2019<-1:sum(all_region_ice_extent$yyyyddd>=2019001 & all_region_ice_extent$yyyyddd<=2019149)
-# greenland_sea_no_days_2020<-1:sum(all_region_ice_extent$yyyyddd>=2020001 & all_region_ice_extent$yyyyddd<=2020149)
-# greenland_sea_extent_2015<-all_region_ice_extent$X.7..Greenland_Sea[all_region_ice_extent$yyyyddd>=2015001 & all_region_ice_extent$yyyyddd<=2015149]
-# greenland_sea_extent_2016<-all_region_ice_extent$X.7..Greenland_Sea[all_region_ice_extent$yyyyddd>=2016001 & all_region_ice_extent$yyyyddd<=2016149]
-# greenland_sea_extent_2017<-all_region_ice_extent$X.7..Greenland_Sea[all_region_ice_extent$yyyyddd>=2017001 & all_region_ice_extent$yyyyddd<=2017149]
-# greenland_sea_extent_2018<-all_region_ice_extent$X.7..Greenland_Sea[all_region_ice_extent$yyyyddd>=2018001 & all_region_ice_extent$yyyyddd<=2018149]
-# greenland_sea_extent_2019<-all_region_ice_extent$X.7..Greenland_Sea[all_region_ice_extent$yyyyddd>=2019001 & all_region_ice_extent$yyyyddd<=2019149]
-# greenland_sea_extent_2020<-all_region_ice_extent$X.7..Greenland_Sea[all_region_ice_extent$yyyyddd>=2020001 & all_region_ice_extent$yyyyddd<=2020149]
-# 
-# greenland_sea_2015<-data.frame(Days=greenland_sea_no_days_2015,Extent=greenland_sea_extent_2015)
-# greenland_sea_2016<-data.frame(Days=greenland_sea_no_days_2016,Extent=greenland_sea_extent_2016)
-# greenland_sea_2017<-data.frame(Days=greenland_sea_no_days_2017,Extent=greenland_sea_extent_2017)
-# greenland_sea_2018<-data.frame(Days=greenland_sea_no_days_2018,Extent=greenland_sea_extent_2018)
-# greenland_sea_2019<-data.frame(Days=greenland_sea_no_days_2019,Extent=greenland_sea_extent_2019)
-# greenland_sea_2020<-data.frame(Days=greenland_sea_no_days_2020,Extent=greenland_sea_extent_2020)
-# 
-# ggplot(data=greenland_sea_2015)+
-#   geom_line(aes(x=Days,y=Extent,colour='2015',group=1),size=1.0)+
-#   geom_point(aes(x=Days,y=Extent,colour='2015'))+
-#   geom_line(data=greenland_sea_2016,aes(x=Days,y=Extent,colour='2016',group=1),size=1.0)+
-#   geom_point(data=greenland_sea_2016,aes(x=Days,y=Extent,colour='2016'))+
-#   geom_line(data=greenland_sea_2017,aes(x=Days,y=Extent,colour='2017',group=1),size=1.0)+
-#   geom_point(data=greenland_sea_2017,aes(x=Days,y=Extent,colour='2017'))+
-#   geom_line(data=greenland_sea_2018,aes(x=Days,y=Extent,colour='2018',group=1),size=1.0)+
-#   geom_point(data=greenland_sea_2018,aes(x=Days,y=Extent,colour='2018'))+
-#   geom_line(data=greenland_sea_2019,aes(x=Days,y=Extent,colour='2019',group=1),size=1.0)+
-#   geom_point(data=greenland_sea_2019,aes(x=Days,y=Extent,colour='2019'))+
-#   geom_line(data=greenland_sea_2020,aes(x=Days,y=Extent,colour='2020',group=1),size=1.0)+
-#   geom_point(data=greenland_sea_2020,aes(x=Days,y=Extent,colour='2020'))+
-#   ggtitle('Greenland Sea Ice extent in sq. km in 2015-2020')+
-#   scale_color_manual(name='Year',values=cols)+
-#   xlab('No. of days')+
-#   ylab('Ice Extent in sq. km')
-  
+ greenland_sea_no_days_2015<-1:sum(all_region_ice_extent$yyyyddd>=2015001 & all_region_ice_extent$yyyyddd<=2015149)
+ greenland_sea_no_days_2016<-1:sum(all_region_ice_extent$yyyyddd>=2016001 & all_region_ice_extent$yyyyddd<=2016149)
+ greenland_sea_no_days_2017<-1:sum(all_region_ice_extent$yyyyddd>=2017001 & all_region_ice_extent$yyyyddd<=2017149)
+ greenland_sea_no_days_2018<-1:sum(all_region_ice_extent$yyyyddd>=2018001 & all_region_ice_extent$yyyyddd<=2018149)
+ greenland_sea_no_days_2019<-1:sum(all_region_ice_extent$yyyyddd>=2019001 & all_region_ice_extent$yyyyddd<=2019149)
+ greenland_sea_no_days_2020<-1:sum(all_region_ice_extent$yyyyddd>=2020001 & all_region_ice_extent$yyyyddd<=2020149)
+ greenland_sea_extent_2015<-all_region_ice_extent$X.7..Greenland_Sea[all_region_ice_extent$yyyyddd>=2015001 & all_region_ice_extent$yyyyddd<=2015149]
+ greenland_sea_extent_2016<-all_region_ice_extent$X.7..Greenland_Sea[all_region_ice_extent$yyyyddd>=2016001 & all_region_ice_extent$yyyyddd<=2016149]
+ greenland_sea_extent_2017<-all_region_ice_extent$X.7..Greenland_Sea[all_region_ice_extent$yyyyddd>=2017001 & all_region_ice_extent$yyyyddd<=2017149]
+ greenland_sea_extent_2018<-all_region_ice_extent$X.7..Greenland_Sea[all_region_ice_extent$yyyyddd>=2018001 & all_region_ice_extent$yyyyddd<=2018149]
+ greenland_sea_extent_2019<-all_region_ice_extent$X.7..Greenland_Sea[all_region_ice_extent$yyyyddd>=2019001 & all_region_ice_extent$yyyyddd<=2019149]
+ greenland_sea_extent_2020<-all_region_ice_extent$X.7..Greenland_Sea[all_region_ice_extent$yyyyddd>=2020001 & all_region_ice_extent$yyyyddd<=2020149]
+ 
+ greenland_sea_2015<-data.frame(Days=greenland_sea_no_days_2015,Extent=greenland_sea_extent_2015)
+ greenland_sea_2016<-data.frame(Days=greenland_sea_no_days_2016,Extent=greenland_sea_extent_2016)
+ greenland_sea_2017<-data.frame(Days=greenland_sea_no_days_2017,Extent=greenland_sea_extent_2017)
+ greenland_sea_2018<-data.frame(Days=greenland_sea_no_days_2018,Extent=greenland_sea_extent_2018)
+ greenland_sea_2019<-data.frame(Days=greenland_sea_no_days_2019,Extent=greenland_sea_extent_2019)
+ greenland_sea_2020<-data.frame(Days=greenland_sea_no_days_2020,Extent=greenland_sea_extent_2020)
+ 
+ ggplot(data=greenland_sea_2015)+
+   geom_line(aes(x=Days,y=Extent,colour='2015',group=1),size=1.0)+
+   geom_point(aes(x=Days,y=Extent,colour='2015'))+
+   geom_line(data=greenland_sea_2016,aes(x=Days,y=Extent,colour='2016',group=1),size=1.0)+
+   geom_point(data=greenland_sea_2016,aes(x=Days,y=Extent,colour='2016'))+
+   geom_line(data=greenland_sea_2017,aes(x=Days,y=Extent,colour='2017',group=1),size=1.0)+
+   geom_point(data=greenland_sea_2017,aes(x=Days,y=Extent,colour='2017'))+
+   geom_line(data=greenland_sea_2018,aes(x=Days,y=Extent,colour='2018',group=1),size=1.0)+
+   geom_point(data=greenland_sea_2018,aes(x=Days,y=Extent,colour='2018'))+
+   geom_line(data=greenland_sea_2019,aes(x=Days,y=Extent,colour='2019',group=1),size=1.0)+
+   geom_point(data=greenland_sea_2019,aes(x=Days,y=Extent,colour='2019'))+
+   geom_line(data=greenland_sea_2020,aes(x=Days,y=Extent,colour='2020',group=1),size=1.0)+
+   geom_point(data=greenland_sea_2020,aes(x=Days,y=Extent,colour='2020'))+
+   ggtitle('Greenland Sea Ice extent in sq. km in 2015-2020')+
+   scale_color_manual(name='Year',values=cols)+
+   xlab('No. of days')+
+   ylab('Ice Extent in sq. km')
+ 
+#Ocean processing
+ocn_2004_sst<-ncvar_get(ocean_temperature_2004,"sst")
+ocn_2004_latitude<-ncvar_get(ocean_temperature_2004,"lat")
+ocn_2004_longitude<-ncvar_get(ocean_temperature_2004,"lon")
+ocn_2004_sst<-ocn_2004_sst[seq(1,length(ocn_2004_longitude),10),seq(1,length(ocn_2004_latitude),10)]
+ocn_2004_latitude<-ocn_2004_latitude[seq(1,length(ocn_2004_latitude),10)]
+ocn_2004_longitude<-ocn_2004_longitude[seq(1,length(ocn_2004_longitude),10)]
+ocn_2004_title<-"Sea surface temperatures in April of 2020"
+ocn_2004_unit<-"Celsius"
+ocn_2004_gradient<-'inferno'
+ocn_2004_limits<-c(-1.8,33.6)
+nc_close(ocean_temperature_2004)
+
+ocn_2019_sst<-ncvar_get(ocean_temperature_2019,"sst")
+ocn_2019_latitude<-ncvar_get(ocean_temperature_2019,"lat")
+ocn_2019_longitude<-ncvar_get(ocean_temperature_2019,"lon")
+ocn_2019_sst<-ocn_2019_sst[seq(1,length(ocn_2019_longitude),10),seq(1,length(ocn_2019_latitude),10)]
+ocn_2019_latitude<-ocn_2019_latitude[seq(1,length(ocn_2019_latitude),10)]
+ocn_2019_longitude<-ocn_2019_longitude[seq(1,length(ocn_2019_longitude),10)]
+ocn_2019_title<-"Sea surface temperatures in April of 2020"
+ocn_2019_unit<-"Celsius"
+ocn_2019_gradient<-'inferno'
+ocn_2019_limits<-c(-1.8,33.6)
+nc_close(ocean_temperature_2019)
+
+ocn_2020_sst<-ncvar_get(ocean_temperature_2020,"sst")
+ocn_2020_latitude<-ncvar_get(ocean_temperature_2020,"lat")
+ocn_2020_longitude<-ncvar_get(ocean_temperature_2020,"lon")
+ocn_2020_sst<-ocn_2020_sst[seq(1,length(ocn_2020_longitude),10),seq(1,length(ocn_2020_latitude),10)]
+ocn_2020_latitude<-ocn_2020_latitude[seq(1,length(ocn_2020_latitude),10)]
+ocn_2020_longitude<-ocn_2020_longitude[seq(1,length(ocn_2020_longitude),10)]
+ocn_2020_title<-"Sea surface temperatures in April of 2020"
+ocn_2020_unit<-"Celsius"
+ocn_2020_gradient<-'inferno'
+ocn_2020_limits<-c(-1.8,33.6)
+nc_close(ocean_temperature_2020)
+
+plotMap(ocn_2004_latitude,ocn_2004_longitude,ocn_2004_sst,ocn_2004_title,ocn_2004_unit,gradient=ocn_2004_gradient,limits=ocn_2004_limits,gradient_direction = 1)
+
+plotMap(ocn_2019_latitude,ocn_2019_longitude,ocn_2019_sst,ocn_2019_title,ocn_2019_unit,gradient=ocn_2019_gradient,limits=ocn_2019_limits,gradient_direction = 1)
+
+plotMap(ocn_2020_latitude,ocn_2020_longitude,ocn_2020_sst,ocn_2020_title,ocn_2020_unit,gradient=ocn_2020_gradient,limits=ocn_2020_limits,gradient_direction = 1)
